@@ -31,3 +31,17 @@ function get_days_array($days_count) {
     }
     return $result_array;
 }
+
+function local_open_course_materials_can_access_course($courseid) {
+    global $USER, $DB;
+    $user_registration_date = $DB->get_field('user', 'timecreated', ['id' => $USER->id]);
+    $course_access_days = $DB->get_field('course', 'open_access_days', ['id' => $courseid]);
+    if ($course_access_days === null) {
+        $course_access_days = get_config('local_open_course_materials', 'course_access_days') ?? 7;
+    }
+    $course_availability_date = strtotime("+{$course_access_days} days", $user_registration_date);
+    return time() >= $course_availability_date;
+}
+
+
+
