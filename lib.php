@@ -32,16 +32,15 @@ function get_days_array($days_count) {
     return $result_array;
 }
 
-function local_open_course_materials_can_access_course($courseid) {
+function local_open_course_by_registration_date_can_access_course($courseid) {
     global $USER, $DB;
     $user_registration_date = $DB->get_field('user', 'timecreated', ['id' => $USER->id]);
-    $course_access_days = $DB->get_field('course', 'open_access_days', ['id' => $courseid]);
-    if ($course_access_days === null) {
-        $course_access_days = get_config('local_open_course_materials', 'course_access_days') ?? 7;
+    $course_access_number = $DB->get_field('course', 'access_number_of_time', ['id' => $courseid]);
+    $course_access_unit = $DB->get_field('course', 'access_unit_of_time', ['id' => $courseid]);
+    if ($course_access_number === null || $course_access_unit === null) {
+        $course_access_number = get_config('local_open_course_by_registration_date', 'course_access_number_of_time_units') ?? 1;
+        $course_access_unit = get_config('local_open_course_by_registration_date', 'course_access_unit_of_time') ?? 'days';
     }
-    $course_availability_date = strtotime("+{$course_access_days} days", $user_registration_date);
+    $course_availability_date = strtotime("+{$course_access_number} {$course_access_unit}", $user_registration_date);
     return time() >= $course_availability_date;
 }
-
-
-

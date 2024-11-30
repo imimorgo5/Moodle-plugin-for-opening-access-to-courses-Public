@@ -2,7 +2,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_local_open_course_materials_upgrade($oldversion) {
+function xmldb_local_open_course_by_registration_date_upgrade($oldversion) {
     global $DB;
 
     if ($oldversion < 2021051702) {
@@ -21,7 +21,7 @@ function xmldb_local_open_course_materials_upgrade($oldversion) {
             $dbman->add_field($table, $field2);
         }
 
-        upgrade_plugin_savepoint(true, 2021051702, 'local', 'open_course_materials');
+        upgrade_plugin_savepoint(true, 2021051702, 'local', 'open_course_by_registration_date');
     }
 
     return true;

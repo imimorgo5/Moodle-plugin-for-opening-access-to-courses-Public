@@ -16,16 +16,16 @@ if ($hassiteconfig) {
     ));
 
     $settings->add(new admin_setting_configselect(
-        'local_open_course_by_registration_date/course_access',
+        'local_open_course_by_registration_date/course_access_unit_of_time',
         get_string('course_access_unit_of_time', 'local_open_course_by_registration_date'),
         get_string('course_access_unit_of_time_desc', 'local_open_course_by_registration_date'),
-        'day',
+        'days',
         array(
-            'minute' => get_string('minute', 'local_open_course_by_registration_date'),
-            'hour' => get_string('hour', 'local_open_course_by_registration_date'),
-            'day' => get_string('day', 'local_open_course_by_registration_date'),
-            'week' => get_string('week', 'local_open_course_by_registration_date'),
-            'month' => get_string('month', 'local_open_course_by_registration_date'),
+            'minutes' => get_string('minute', 'local_open_course_by_registration_date'),
+            'hours' => get_string('hour', 'local_open_course_by_registration_date'),
+            'days' => get_string('day', 'local_open_course_by_registration_date'),
+            'weeks' => get_string('week', 'local_open_course_by_registration_date'),
+            'months' => get_string('month', 'local_open_course_by_registration_date'),
         )
     ));
 
