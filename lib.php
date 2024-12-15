@@ -24,14 +24,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-function get_days_array($days_count) {
+//Функция, возвращающая массив чисел от 1 до count
+function get_number_array($count) {
     $result_array = array();
-    for($i = 1; $i <= $days_count; $i++) {
+    for($i = 1; $i <= $count; $i++) {
         $result_array[$i] = $i;
     }
     return $result_array;
 }
 
+//Функция, проверяющая доступ к курсу для пользователя
 function local_open_course_by_registration_date_can_access_course($courseid) {
     global $USER, $DB;
     $user_registration_date = $DB->get_field('user', 'timecreated', ['id' => $USER->id]);

@@ -12,7 +12,7 @@ if ($hassiteconfig) {
         get_string('course_access_number', 'local_open_course_by_registration_date'),
         get_string('course_access_number_desc', 'local_open_course_by_registration_date'),
         1,
-        get_days_array(30)
+        get_number_array(30)
     ));
 
     $settings->add(new admin_setting_configselect(
