@@ -1,4 +1,4 @@
-local_open_course_by_registration_date
+mod_regrestrict
 =
 Moodle-плагин для открытия курсов в зависимости от даты регистрации на сайте.
 

@@ -17,20 +17,20 @@
 /**
  * Version info.
  *
- * @package local_open_course_by_registration_date
+ * @package mod_regrestrict
  * @copyright 2024 Deloviye ludi
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Opening access to courses depending on the date of registration on the website';
-$string['course_access_number'] = 'The number of units of time';
-$string['course_access_number_desc'] = 'The number of units of time from the moment of user registration to the opening of access to the courses';
-$string['course_access_unit_of_time'] = 'Unit of time';
-$string['course_access_unit_of_time_desc'] = 'The time unit applied to the number of time units selected above';
-$string['enable'] = 'Disable the plugin';
-$string['enable_desc'] = 'Enable or disable delayed user access to courses after registration';
+$string['modulename'] = 'Opening access to courses depending on the date of registration on the website';
+$string['title'] = 'Registration date limit';
+$string['time_number'] = 'Number of time units';
+$string['time_number_help'] = 'The number of units of measurement of time from the moment of registration of the user to the opening of access to the courses';
+$string['time_unit'] = 'The unit of measurement of time';
+$string['time_unit_help'] = 'The time unit applied to the number of time units selected above';
+$string['enable'] = 'Enable registration date restriction';
 $string['minute'] = 'Minute';
 $string['hour'] = 'Hour';
 $string['day'] = 'Day';

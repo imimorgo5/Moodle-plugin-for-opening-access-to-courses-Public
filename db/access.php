@@ -1,13 +1,11 @@
 <?php
-
-defined('MOODLE_INTERNAL') || die();
-
 $capabilities = [
-    'local/open_course_by_registration_date:manage' => [
+    'mod/regrestrict:restriction' => [
+        'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
-            'manager' => CAP_ALLOW
+            'manager' => CAP_ALLOW,
         ],
     ],
 ];

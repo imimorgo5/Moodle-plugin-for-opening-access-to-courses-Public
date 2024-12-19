@@ -17,7 +17,7 @@
 /**
  * Version info.
  *
- * @package local_open_course_by_registration_date
+ * @package mod_regrestrict
  * @copyright 2024 Deloviye ludi
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,18 +31,4 @@ function get_number_array($count) {
         $result_array[$i] = $i;
     }
     return $result_array;
-}
-
-//Функция, проверяющая доступ к курсу для пользователя
-function local_open_course_by_registration_date_can_access_course($courseid) {
-    global $USER, $DB;
-    $user_registration_date = $DB->get_field('user', 'timecreated', ['id' => $USER->id]);
-    $course_access_number = $DB->get_field('course', 'access_number_of_time', ['id' => $courseid]);
-    $course_access_unit = $DB->get_field('course', 'access_unit_of_time', ['id' => $courseid]);
-    if ($course_access_number === null || $course_access_unit === null) {
-        $course_access_number = get_config('local_open_course_by_registration_date', 'course_access_number_of_time_units') ?? 1;
-        $course_access_unit = get_config('local_open_course_by_registration_date', 'course_access_unit_of_time') ?? 'days';
-    }
-    $course_availability_date = strtotime("+{$course_access_number} {$course_access_unit}", $user_registration_date);
-    return time() >= $course_availability_date;
 }

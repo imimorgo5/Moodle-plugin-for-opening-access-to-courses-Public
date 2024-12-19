@@ -17,7 +17,7 @@
 /**
  * Version info.
  *
- * @package local_open_course_by_registration_date
+ * @package mod_regrestrict
  * @copyright 2024 Deloviye ludi
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2024102600;
 $plugin->requires = 2021051700;
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.1';
-$plugin->component = 'local_open_course_by_registration_date';
+$plugin->maturity  = MATURITY_STABLE;
+$plugin->release   = '1.0';
+$plugin->component = 'mod_regrestrict';
