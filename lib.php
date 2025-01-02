@@ -46,42 +46,13 @@ function can_access_course($userid, $courseid) {
     $user = $DB->get_record('user', ['id' => $userid], 'id, timecreated', MUST_EXIST);
     $registration_date = $user->timecreated;
     $current_date = time();
-    $course_settings = $DB->get_record('local_plugin_course_access', ['courseid' => $courseid]);
+    $course_settings = $DB->get_record('mod_regrestrict', ['courseid' => $courseid]);
     if (!$course_settings) {
         return false;
     }
+    $date = strtotime("$course_settings->timenumber $course_settings->timeunit", $registration_date);
     $days_since_registration = ($current_date - $registration_date) / 86400;
-    return $days_since_registration >= $course_settings->mindays;
-}
-
-/**
- * Пример использования функции для фильтрации курсов.
- */
-function get_available_courses($userid) {
-    global $DB;
-    $courses = $DB->get_records('course', null, 'fullname');
-    $available_courses = [];
-    foreach ($courses as $course) {
-        if (can_access_course($userid, $course->id)) {
-            $available_courses[] = $course;
-        }
-    }
-
-    return $available_courses;
-}
-
-/**
- * Добавляем элемент меню для отображения доступных курсов.
- */
-function local_myplugin_extend_navigation(global_navigation $navigation) {
-    global $USER;
-
-    $node = $navigation->add(get_string('availablecourses', 'local_myplugin'));
-
-    $available_courses = get_available_courses($USER->id);
-    foreach ($available_courses as $course) {
-        $node->add($course->fullname, new moodle_url('/course/view.php', ['id' => $course->id]));
-    }
+    return $days_since_registration >= $date;
 }
 
 /**
@@ -93,11 +64,12 @@ function xmldb_local_myplugin_install() {
     $dbman = $DB->get_manager();
 
     // Создаем таблицу для хранения настроек курса.
-    $table = new xmldb_table('local_plugin_course_access');
+    $table = new xmldb_table('mod_regrestrict');
 
     $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
     $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-    $table->add_field('mindays', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+    $table->add_field('timenumber', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+    $table->add_field('timeunit', XMLDB_TYPE_TEXT, null, XMLDB_NOTNULL, null, null);
 
     $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
 

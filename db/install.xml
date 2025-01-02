@@ -7,6 +7,7 @@
         <TABLE NAME="mod_regrestrict" COMMENT="each record is a restriction">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="timenumber" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="timeunit" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
             </FIELDS>
