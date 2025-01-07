@@ -14,18 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Version info.
- *
- * @package availability_registrationdate
- * @copyright 2024 Deloviye ludi
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2024102600;
-$plugin->requires = 2021051700;
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.0';
-$plugin->component = 'availability_registrationdate';
+$observers = [
+    [
+        'eventname' => '\core\event\course_module_deleted',
+        'callback' => '\availability_registrationdate\autoupdate::update_from_event',
+    ],
+];
