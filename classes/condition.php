@@ -4,7 +4,7 @@
  * Languages configuration for the availability_registrationdate plugin.
  *
  * @package   availability_registrationdate
- * @copyright 2024 Deloviye ludi
+ * @copyright 2025 Deloviye ludi
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -88,10 +88,9 @@ class condition extends \core_availability\condition {
     /**
      * Возвращает строку, описывающую ограничения для указанного элемента,
      * независимо от их текущего применения.
-     * Определяет, какие ограничения применяются к элементу на основе курса и прав пользователя.
-     * Если конец курса не установлен, возвращает сообщение об отсутствии даты.
+     * Определяет, какие ограничения применяются к элементу на основе курса и данных пользователя.
      * В зависимости от флага $not, определяет, использовать ли 'from' или 'until'.
-     * Возвращает отформатированную дату ограничения с дополнительной отладочной информацией, если это разрешено.
+     * Возвращает отформатированную дату ограничения с дополнительной отладочной информацией.
      *
      * @param bool $full Если true, возвращает полную информацию об ограничениях
      * @param bool $not Если true, инвертирует условия описания
@@ -101,17 +100,13 @@ class condition extends \core_availability\condition {
     public function get_description($full, $not, info $info): string {
         global $USER;
         $course = $info->get_course();
-        $capability = has_capability('moodle/course:manageactivities', context_course::instance($course->id));
 		$frut = $not ? 'until' : 'from';
         $calc = $this->calc($course, $USER->id);
         if ($calc === 0) {
             $a = $this->get_debug_string();
             return trim(get_string('admin_' . $frut, 'availability_registrationdate', $a));
         }
-        $a = new stdClass();
-        $a->rnumber = userdate($calc, get_string('strftimedatetime', 'langconfig'));
-        $a->rtime = ''; //($capability && $full) ? '(' . trim($this->get_debug_string()) . ')' : '';
-        $a->rela = '';
+        $a = userdate($calc, get_string('strftimedatetime', 'langconfig'));
         return trim(get_string($frut, 'availability_registrationdate', $a));
     }
 
@@ -123,8 +118,7 @@ class condition extends \core_availability\condition {
 
     /**
      * Возвращает строковое представление параметров этого условия для отладки.
-     * Создаёт строку со значением относительного кол-ва времени,
-     * единицы измерения и описание начального события.
+     * Создаёт строку со значением относительного кол-ва времени и единицы измерения.
      *
      * @return string Текстовое представление параметров для отладки.
      * @throws \coding_exception
@@ -163,8 +157,7 @@ class condition extends \core_availability\condition {
      * Вычисляет относительное время на основе заданных параметров курса и пользователя.
      *
      * Метод определяет дату и время, используемые для проверки доступности элементов курса,
-     * на основе заданных относительных параметров. Рассчитывает дату в зависимости от различных
-     * событий курса, таких как начало или конец курса, дата зачисления или завершение активности.
+     * на основе заданных относительных параметров. Рассчитывает дату в зависимости от даты регистрации пользователя на сайте.
      *
      * @param stdClass $course Объект курса, содержащий информацию о текущем курсе.
      * @param int $userid Идентификатор пользователя, для которого производится вычисление.
@@ -180,32 +173,29 @@ class condition extends \core_availability\condition {
 		// After latest enrolment start date.
 		$sql = 'SELECT u.timecreated
 				FROM {user} u
-				WHERE u.id = :userid AND u.deleted <> 1
-				ORDER by u.timecreated DESC';
+				WHERE u.id = :userid AND u.deleted <> 1';
 
-		$lowest = $this->getlowest($sql, ['userid' => $userid]);
-		return $this->fixdate("+$x", $lowest);
+		$reg_date = $this->get_value_from_db($sql, ['userid' => $userid]);
+		return $this->fixdate("+$x", $reg_date);
     }
 
     /**
-     * Извлекает запись с наименьшим значением из базы данных на основе SQL-запроса.
+     * Извлекает запись из базы данных на основе SQL-запроса.
      *
      * Выполняет SQL-запрос с заданными параметрами и извлекает одну запись из
      * результата, игнорируя возможные дубликаты. Полученная запись преобразуется в
-     * массив, из которого извлекается значение первого элемента, представляющее минимальное значение.
+     * массив, из которого извлекается значение первого элемента.
      *
      * @param string $sql SQL-запрос для выполнения, который должен выбирать конкретное значение.
      * @param array $parameters Массив параметров для подстановки в SQL-запрос.
      * @return int Наименьшее найденное значение в записи. Возвращает 0, если запись не найдена.
      * @throws \dml_exception
      */
-    private function getlowest($sql, $parameters): int {
+    private function get_value_from_db($sql, $parameters): int {
         global $DB;
-        if ($lowestrec = $DB->get_record_sql($sql, $parameters, IGNORE_MULTIPLE)) {
-            $recs = get_object_vars($lowestrec);
-            foreach ($recs as $value) {
-                return $value;
-            }
+        if ($reg_date = $DB->get_record_sql($sql, $parameters, IGNORE_MULTIPLE)) {
+            $record = get_object_vars($reg_date);
+            return array_shift($record);
         }
         return 0;
     }
@@ -215,8 +205,7 @@ class condition extends \core_availability\condition {
      * Корректирует дату, прибавляя или вычитая заданное количество времени, и возвращает новое время.
      *
      * Метод принимает строку, представляющую временной интервал, который будет добавлен к заданной
-     * дате. Если временной интервал больше одного дня (`$this->relativedwm > 1`), исходное
-     * время суток (часы, минуты, секунды) от даты `$newdate` сохраняется в результирующей дате.
+     * дате. Вычисляет новую дату равную дате регистрации пользователя + установленное временное ограничение.
      *
      * @param string $calc Строка, описывающая временной интервал и оператор ('+' или '-'), например,
      *                     '+2 days' или '-3 weeks'.

@@ -18,11 +18,11 @@
  * Languages configuration for the availability_registrationdate plugin.
  *
  * @package   availability_registrationdate
- * @copyright 2024 Deloviye ludi
+ * @copyright 2025 Deloviye ludi
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['description'] = 'Открывайте материалы в зависимости от даты регистрации пользователя на сайте.';
+$string['description'] = 'Открытие материалов курса в зависимости от даты регистрации пользователя на сайте.';
 $string['pluginname'] = 'Ограничение по дате регистрации на сайте';
 $string['title'] = 'Ограничение по дате регистрации на сайте';
 $string['privacy:metadata'] = 'Плагин "Ограничение по дате регистрации на сайте" не хранит никаких персональных данных.';
@@ -33,8 +33,7 @@ $string['hour'] = 'час(-а,-ов)';
 $string['minute'] = 'минут(-а,-ы)';
 $string['month'] = 'месяц(-а,-ев)';
 $string['week'] = 'неделя(-ли,-ль)';
-$string['year'] = 'год(-а,лет)';
-$string['until'] = 'Установлено ограничение, связанное с датой и временем регистрации на сайте. Материал будет доступен до {$a->rnumber} {$a->rtime} {$a->rela}';
-$string['from'] = 'Установлено ограничение, связанное с датой и временем регистрации на сайте. Материал станет доступен с {$a->rnumber} {$a->rtime} {$a->rela}';
+$string['until'] = 'Ограничение, связанное с датой регистрации на сайте. Материал будет доступен до {$a}.';
+$string['from'] = 'Ограничение, связанное с датой регистрации на сайте. Материал станет доступен с {$a}.';
 $string['admin_until'] = 'Прошло не более {$a} с момента регистрации на сайте.';
 $string['admin_from'] = 'Прошло более {$a} с момента регистрации на сайте.';

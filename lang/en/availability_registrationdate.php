@@ -18,11 +18,11 @@
  * Languages configuration for the availability_registrationdate plugin.
  *
  * @package   availability_registrationdate
- * @copyright 2024 Deloviye ludi
+ * @copyright 2025 Deloviye ludi
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['description'] = 'Open the materials depending on the date of registration of the user for the site.';
+$string['description'] = 'The opening of course materials depends on the date of the user\'s registration on the website.';
 $string['pluginname'] = 'Restriction by Enrolment date';
 $string['title'] = 'Restriction by Enrolment date';
 $string['privacy:metadata'] = 'The Restriction by date plugin does not store any personal data.';
@@ -33,8 +33,7 @@ $string['hour'] = 'hour(-s)';
 $string['minute'] = 'minute(-s)';
 $string['month'] = 'month(-s)';
 $string['week'] = 'week(-s)';
-$string['year'] = 'year(-s)';
-$string['until'] = 'There is a limit associated with the date and time of registration for the site. The material will be available until {$a->rnumber} {$a->rtime} {$a->rela}';
-$string['from'] = 'There is a limit associated with the date and time of registration for the site. The material will be available from {$a->rnumber} {$a->rtime} {$a->rela}';
+$string['until'] = 'A restriction related to the registration date on the website. The material will be available until {$a}.';
+$string['from'] = 'A restriction related to the registration date on the website. The material will be available from {$a}.';
 $string['admin_until'] = 'No more than {$a} has passed since registering on the site.';
 $string['admin_from'] = 'It has been more than {$a} since registering on the site.';
